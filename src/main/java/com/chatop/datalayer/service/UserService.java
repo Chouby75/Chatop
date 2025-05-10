@@ -57,5 +57,15 @@ public UserService(usersRepository userRepository, PasswordEncoder passwordEncod
             return null; // User not found
         }
     }
+
+    public users getUserById(Long id){
+        Optional<users> optionalUser = userRepository.findById(id);
+        if(optionalUser.isPresent()) {
+            users existingUser = optionalUser.get();
+            return existingUser;
+        }else{
+            return null;
+        }
+    }
 }
 

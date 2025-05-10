@@ -7,8 +7,10 @@ import java.util.Optional;
 import com.chatop.datalayer.entity.rentals;
 import com.chatop.datalayer.entity.users;
 
+
 @Repository
 public interface rentalsRepository extends CrudRepository<rentals, Long> {
     Optional<rentals> findByName(String name);
+    Optional<rentals> findById(Long id);
     Optional<rentals> findByOwnerId(users owner_id);
-}
+}   
