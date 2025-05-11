@@ -6,8 +6,12 @@ import com.chatop.datalayer.repository.usersRepository;
 import com.chatop.dto.RentalsDto;
 import com.chatop.datalayer.entity.rentals;
 import com.chatop.datalayer.entity.users;
+import com.chatop.services.cloudinaryService;
+import com.chatop.dto.RentalsInputDto;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -17,17 +21,22 @@ public class RentalService {
 
     private final rentalsRepository rentalsRepository;
     private final usersRepository usersRepository;
+    private final cloudinaryService cloudinaryService;
     
-    public RentalService(rentalsRepository rentalsRepository, usersRepository usersRepository) {
+    public RentalService(rentalsRepository rentalsRepository, usersRepository usersRepository, cloudinaryService cloudinaryService) {
+        this.cloudinaryService = cloudinaryService;
         this.rentalsRepository = rentalsRepository;
         this.usersRepository = usersRepository;
     }
 
-    public void createRentals(RentalsDto rental, String username){
+    public void createRentals(RentalsInputDto rental, String username) throws IOException {
         // Logic to create a rental
         // This is just a placeholder. You would typically save the rental to a database here.
         Optional<users> user = usersRepository.findByName(username);
         users existingUser = user.get();
+
+        Map uploadResult = cloudinaryService.upload(rental.getPicture());
+        String imageUrl = (String) uploadResult.get("secure_url"); // Récupère l'URL sécurisée
 
         rentals newRental = new rentals();
         newRental.setName(rental.getName());
@@ -35,6 +44,7 @@ public class RentalService {
         newRental.setSurface(rental.getSurface());
         newRental.setPrice(rental.getPrice());
         newRental.setOwnerId(existingUser);
+        newRental.setPicture(imageUrl);
 
         // Save the rental to the database
         rentalsRepository.save(newRental);
@@ -51,7 +61,7 @@ public class RentalService {
             RentalsDto rental = convertToDto(existingRental);
             return rental;
         } else {
-            return null; // Rental not found
+            return null; 
         }
     }
 
@@ -75,13 +85,11 @@ public class RentalService {
         dto.setPrice(rental.getPrice());
         dto.setPicture(rental.getPicture());
         dto.setDescription(rental.getDescription());
-
-        // Gérer owner_id
+        
         if (rental.getOwnerId() != null) {
-            // Supposons que votre entité 'users' a une méthode getId()
             dto.setOwner_id(rental.getOwnerId().getId());
         } else {
-            dto.setOwner_id(null); // Ou une valeur par défaut si applicable
+            dto.setOwner_id(null); 
         }
 
         dto.setCreated_at(rental.getCreatedAt());
