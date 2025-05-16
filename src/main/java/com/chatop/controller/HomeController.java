@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-
-import com.chatop.datalayer.entity.rentals;
 import com.chatop.datalayer.service.MessagesService;
 import com.chatop.datalayer.service.RentalService;
 import com.chatop.datalayer.service.UserService;
-import com.chatop.services.JWTService;
 import com.chatop.dto.MessagesDto;
 import com.chatop.dto.RentalsDto;
 import com.chatop.dto.RentalsInputDto;
+import com.chatop.dto.RentalsResponseDto;
 import com.chatop.datalayer.entity.users;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -28,13 +28,11 @@ public class HomeController {
 
     private final RentalService rentalService;
     private final UserService userService;
-    private final JWTService jwtService;
     private final MessagesService messagesService;
 
-    public HomeController(RentalService rentalService, JWTService jwtService, UserService userService, MessagesService messagesService) {
+    public HomeController(RentalService rentalService, UserService userService, MessagesService messagesService) {
         this.messagesService = messagesService;
         this.rentalService = rentalService;
-        this.jwtService = jwtService;
         this.userService = userService;
     }
 
@@ -45,23 +43,23 @@ public class HomeController {
     }
     
     @GetMapping("/rentals")
-    public List<RentalsDto> getRentals() {
+    public RentalsResponseDto getRentals() {
         List<RentalsDto> rentalsList = rentalService.getAllRentals();
-        return rentalsList;
-    }
+        RentalsResponseDto rentalsResponse = new RentalsResponseDto();
+        rentalsResponse.setRentals(rentalsList);
+        return rentalsResponse;
+}
     
     @PostMapping("/rentals")
     public String postRentals(Authentication auth, @RequestBody RentalsInputDto rental) throws IOException {
-        System.out.println("Rental: " + rental);
-        if (rental.getId() != null) {
-            return "Rental ID should not be provided for new rentals.";
-        }
         rentalService.createRentals(rental, auth.getName());
         return "Rental Created !";
     }
     
-    @PutMapping("/rentals")
-    public String putRentals(Authentication auth, RentalsDto rental) {
+    @PutMapping("/rentals/{rentalId}")
+    public String putRentals(Authentication auth, @RequestBody RentalsDto rental, @PathVariable Long rentalId) throws IOException {
+        rental.setId(rentalId);
+        rentalService.updateRentals(rental, auth.getName());
         return "Rental updated !";
     }
     

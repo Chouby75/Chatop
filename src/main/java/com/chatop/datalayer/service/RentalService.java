@@ -74,6 +74,18 @@ public class RentalService {
         return allRentals;
     }
 
+    public void updateRentals(RentalsDto rental, String username) {
+
+        rentals existingRental = rentalsRepository.findById(rental.getId()).orElse(null);
+        if (existingRental != null) {
+            existingRental.setName(rental.getName());
+            existingRental.setDescription(rental.getDescription());
+            existingRental.setSurface(rental.getSurface());
+            existingRental.setPrice(rental.getPrice());
+            rentalsRepository.save(existingRental);
+        }
+    }
+
     private RentalsDto convertToDto(rentals rental) {
         if (rental == null) {
             return null;
