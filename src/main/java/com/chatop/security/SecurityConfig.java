@@ -2,6 +2,7 @@ package com.chatop.security;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -19,11 +20,13 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
 @Configuration
 public class SecurityConfig {
 
+	// @Value("${jwt.key}")
 	private String jwtKey = "TRES_LONGUE_CLE_SECRETE_POUR_TEST_NE_PAS_UTILISER_EN_PROD_123456789";
 
 	@Bean
