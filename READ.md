@@ -3,6 +3,13 @@
 
 Chatop provides a RESTful API. Here are some common endpoints, including those from the Login, Message, and Rental controllers:
 
+```markdown
+## Environment Variables
+
+To configure the application, you can set environment variables. Create a `.env` file in the root directory of the project and define the necessary variables.
+Like the .env.exemple
+```
+
 ````markdown
 ## Running the Project with Maven
 
