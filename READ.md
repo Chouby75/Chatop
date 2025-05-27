@@ -1,4 +1,4 @@
-````markdown
+`````markdown
 ## Usage
 
 Chatop provides a RESTful API. Here are some common endpoints, including those from the Login, Message, and Rental controllers:
@@ -11,12 +11,11 @@ To run the project using Maven, execute the following command in the project's r
 ```bash
 mvn spring-boot:run
 ```
-````
-````
 
 This command compiles the project and starts the Spring Boot application.
 
 Refer to the API documentation (generated using Swagger/OpenAPI) for a complete list of endpoints, request/response formats, and authentication requirements. The API documentation is available at: http://localhost:3001/api/swagger-ui/index.html#/
+````
 
 **Authentication (Login Controller):**
 
@@ -35,3 +34,12 @@ Refer to the API documentation (generated using Swagger/OpenAPI) for a complete 
 
 - `GET /api/messages/{rental_id}`: Retrieve messages for a specific rental (requires authentication).
 - `POST /api/messages`: Send a message related to a rental (requires authentication).
+
+```
+
+```
+`````
+
+```
+
+```
