@@ -32,37 +32,32 @@ public class LoginController {
     @PostMapping("/login")
     public TokenDto loginUser(@RequestBody UserInputDto user) {
         UsersOutputDto userLogin = userService.loginUsers(user);
+        TokenDto tokenDto = new TokenDto("");
         if (userLogin == null) {
-            TokenDto tokenDto = new TokenDto("Invalid credentials");
-            return tokenDto;
+            tokenDto.setToken("Invalid credentials");
         }else {
             String token = jwtService.generateToken(userLogin.getName());
-            TokenDto tokenDto = new TokenDto(token);
-            return tokenDto;
+            tokenDto.setToken(token);
         }
+        return tokenDto;
     }
 
     @PostMapping("/register")
     public TokenDto registerUser(@RequestBody UserInputDto user) {
         UsersOutputDto userRegister = userService.registUsers(user);
+        TokenDto tokenDto = new TokenDto("");
         if (userRegister != null) {
             String token = jwtService.generateToken(userRegister.getName());
-            TokenDto tokenDto = new TokenDto(token);
-            return tokenDto;
+            tokenDto.setToken(token);
         } else {
-            TokenDto tokenDto = new TokenDto("Invalid credentials");
-            return tokenDto;
+            tokenDto.setToken("User already exists");
         }
+        return tokenDto;
     }
 
     @GetMapping("/me")
     public UsersOutputDto getCurrentUser(Authentication authentication) {
-        UsersOutputDto userMe = userService.getUserByName(authentication.getName());
-        if (userMe == null) {
-            return userMe;
-        }else {
-            return userMe;
-        }
+        return userService.getUserByName(authentication.getName());
     }
     
 }

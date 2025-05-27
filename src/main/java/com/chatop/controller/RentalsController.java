@@ -29,8 +29,7 @@ public class RentalsController {
 
     @GetMapping("/rentals/{id}")
     public RentalsDto getRentalById(@PathVariable Long id) {
-        RentalsDto rental = rentalService.getRentalById(id);
-        return rental;
+       return rentalService.getRentalById(id);
     }
     
     @GetMapping("/rentals")

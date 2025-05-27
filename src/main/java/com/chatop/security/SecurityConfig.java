@@ -26,7 +26,7 @@ import com.nimbusds.jose.jwk.source.ImmutableSecret;
 @Configuration
 public class SecurityConfig {
 
-	// @Value("${jwt.key}")
+	// @Value("${jwt.key}")	
 	private String jwtKey = "TRES_LONGUE_CLE_SECRETE_POUR_TEST_NE_PAS_UTILISER_EN_PROD_123456789";
 
 	@Bean
@@ -50,13 +50,6 @@ public class SecurityConfig {
 	public JwtDecoder jwtDecoder() {
 		SecretKeySpec secretKey = new SecretKeySpec(this.jwtKey.getBytes(), 0, this.jwtKey.getBytes().length, "RSA");
 		return NimbusJwtDecoder.withSecretKey(secretKey).macAlgorithm(MacAlgorithm.HS256).build();
-	}
-
-	@Bean
-	public UserDetailsService users() {
-		UserDetails user = User.builder().username(	"user").password(passwordEncoder().encode("password")).roles("USER")
-				.build();
-		return new InMemoryUserDetailsManager(user);
 	}
 
 	@Bean
