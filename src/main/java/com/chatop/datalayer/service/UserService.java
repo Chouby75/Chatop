@@ -3,7 +3,6 @@ package com.chatop.datalayer.service;
 import org.springframework.stereotype.Service;
 import com.chatop.datalayer.repository.usersRepository;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.chatop.datalayer.entity.users;
 import java.util.Optional;
