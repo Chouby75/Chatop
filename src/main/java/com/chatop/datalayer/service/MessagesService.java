@@ -17,8 +17,8 @@ public class MessagesService {
         // This is just a placeholder. You would typically save the message to a database here.
         messages newMessage = new messages();
         newMessage.setMessage(message.getMessage());
-        newMessage.setUser_id(message.getUser_id());
-        newMessage.setRental_id(message.getRental_id());
+        newMessage.setUser_id(Long.valueOf(message.getUser_id()));
+        newMessage.setRental_id(Long.valueOf(message.getRental_id()));
 
         // Save the message to the database
         messagesRepository.save(newMessage);
