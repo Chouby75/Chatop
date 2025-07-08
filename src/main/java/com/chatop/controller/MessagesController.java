@@ -8,7 +8,7 @@ import com.chatop.dto.MessagesDto;
 import com.chatop.dto.ResponseMessageDto;
 import com.chatop.dto.UsersOutputDto;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.chatop.datalayer.service.MessagesService;
 import com.chatop.datalayer.service.UserService;
@@ -26,10 +26,6 @@ public class MessagesController {
 
     @PostMapping("/messages")
     public ResponseMessageDto postMessages(@RequestBody MessagesDto message) {
-        System.out.println("Message: " + message.getMessage());
-        System.out.println("Rental ID: " + message.getRental_id());
-        System.out.println("User ID: " + message.getUser_id());
-        System.out.println("DTO" + message);
         messagesService.createMessage(message);
         ResponseMessageDto responseMessage = new ResponseMessageDto();
         responseMessage.setMessage("Message send with success");
